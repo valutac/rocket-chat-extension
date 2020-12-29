@@ -7,8 +7,8 @@ import re
 import hashlib
 import pkg_resources
 
-from api_teams import ApiTeams  # pylint: disable=relative-import
-from api_rocket_chat import ApiRocketChat  # pylint: disable=relative-import
+from .api_teams import ApiTeams  # pylint: disable=relative-import
+from .api_rocket_chat import ApiRocketChat  # pylint: disable=relative-import
 
 from lms.djangoapps.teams.models import CourseTeamMembership
 from django.conf import settings
@@ -286,7 +286,7 @@ class RocketChatXBlock(XBlock, XBlockWithSettingsMixin, StudioEditableXBlockMixi
             try:
                 client_id = self.xblock_settings["client_id"]
                 client_secret = self.xblock_settings["client_secret"]
-            except KeyError, xblock_settings_error:
+            except KeyError as xblock_settings_error:
                 LOG.error('Get rocketchat xblock settings error: %s', xblock_settings_error)
                 raise
 
@@ -560,7 +560,7 @@ class RocketChatXBlock(XBlock, XBlockWithSettingsMixin, StudioEditableXBlockMixi
         """
         This method verifies if teams are available
         """
-        from openedx_dependencies import modulestore  # pylint: disable=relative-import
+        from .openedx_dependencies import modulestore  # pylint: disable=relative-import
         try:
             course_id = self.runtime.course_id  # pylint: disable=no-member
         except AttributeError:
@@ -586,7 +586,7 @@ class RocketChatXBlock(XBlock, XBlockWithSettingsMixin, StudioEditableXBlockMixi
 
     def _user_image_url(self):
         """Returns an image url for the current user"""
-        from openedx_dependencies import get_profile_image_urls_for_user  # pylint: disable=relative-import
+        from .openedx_dependencies import get_profile_image_urls_for_user  # pylint: disable=relative-import
         current_user = User.objects.get(username=self.user_data["username"])
         profile_image_url = get_profile_image_urls_for_user(current_user)[
             "full"]
@@ -792,7 +792,7 @@ class RocketChatXBlock(XBlock, XBlockWithSettingsMixin, StudioEditableXBlockMixi
         Returns True if the user is privileged in teams discussions for
         this course.
         """
-        from openedx_dependencies import CourseStaffRole  # pylint: disable=relative-import
+        from .openedx_dependencies import CourseStaffRole  # pylint: disable=relative-import
 
         user = User.objects.get(username=username)
 
